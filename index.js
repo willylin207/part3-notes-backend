@@ -23,21 +23,6 @@ app.use(requestLogger)
 app.use(express.static('build'))
 
 let notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    important: true
-  },
-  {
-    id: 2,
-    content: "Browser can execute only JavaScript",
-    important: false
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    important: true
-  }
 ]
 
 
@@ -46,13 +31,6 @@ app.get('/api/notes', (request, response) => {
     response.json(notes)
   })
 })
-
-const generateId = () => {
-  const maxId = notes.length > 0
-    ? Math.max(...notes.map(n => n.id))
-    : 0
-  return maxId + 1
-}
 
 app.post('/api/notes', (request, response) => {
   const body = request.body
@@ -64,7 +42,6 @@ app.post('/api/notes', (request, response) => {
   const note = new Note({
     content: body.content,
     important: body.important || false,
-    date: new Date(),
   })
 
   note.save().then(savedNote => {
